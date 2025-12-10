@@ -1023,7 +1023,7 @@
         tg.expand();
 
         // API URL - замените на ваш ngrok/localhost.run URL
-        const API_URL = 'https://9cb24e103627dd.lhr.life';
+        const API_URL = 'https://9cb24e103627dd.lhr.life/api';
 
         // User data
         const user = tg.initDataUnsafe?.user;
@@ -1106,7 +1106,7 @@
             document.getElementById('withdraw-balance').textContent = formatNum(userData.balance.black);
 
             // Referral link
-            document.getElementById('ref-link').textContent = `https://t.me/YOUR_BOT?start=ref${userId}`;
+            document.getElementById('ref-link').textContent = `https://t.me/TaynerShopBot?start=ref${userId}`;
         }
 
         // Modal functions
@@ -1244,7 +1244,7 @@
 
         function requestWithdraw() {
             if (userData.balance.black < 100) {
-                showToast('Минимум 100 BC для вывода', 'error');
+                showToast('Минимум 500 BC для вывода', 'error');
                 return;
             }
             showToast('Используйте /withdraw в боте');
