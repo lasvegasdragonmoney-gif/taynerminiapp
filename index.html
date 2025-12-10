@@ -602,7 +602,14 @@
         const API_URL = 'http://147.45.185.6:5000/api';
 
         // Get user data from Telegram
-        const user = tg.initDataUnsafe.user;
+        const user = tg.initDataUnsafe?.user;
+        const userId = user?.id || null;
+        
+        // Отладка - показываем user_id
+        console.log('Telegram user:', user);
+        console.log('User ID:', userId);
+        console.log('initData:', tg.initData);
+        console.log('initDataUnsafe:', tg.initDataUnsafe);
 
         // Format number with spaces
         function formatNumber(num) {
@@ -613,9 +620,18 @@
         async function loadData() {
             showLoading();
             
+            // Если нет user_id от Telegram - показываем ошибку
+            if (!userId) {
+                console.error('No user ID from Telegram!');
+                // Пробуем всё равно загрузить демо
+            }
+            
+            const requestId = userId || 'demo';
+            console.log('Requesting data for ID:', requestId);
+            
             try {
                 // Try to load from API
-                const response = await fetch(`${API_URL}/user/${user?.id || 'demo'}`, {
+                const response = await fetch(`${API_URL}/user/${requestId}`, {
                     headers: {
                         'X-Telegram-Init-Data': tg.initData
                     }
