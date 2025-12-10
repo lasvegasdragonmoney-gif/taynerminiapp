@@ -2,41 +2,47 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Tayner Mini App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tayner Bot</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0f0f1a;
-            --bg-secondary: #1a1a2e;
-            --bg-card: #16213e;
-            --accent-gold: #f4d03f;
-            --accent-purple: #9b59b6;
-            --accent-blue: #3498db;
-            --accent-green: #2ecc71;
-            --accent-red: #e74c3c;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #252547;
+            --bg-card-hover: #2d2d5a;
+            --accent-purple: #8b5cf6;
+            --accent-purple-light: #a78bfa;
+            --accent-purple-dark: #7c3aed;
+            --accent-gold: #fbbf24;
+            --accent-green: #34d399;
+            --accent-blue: #60a5fa;
+            --accent-red: #f87171;
+            --accent-pink: #f472b6;
             --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --border-glow: rgba(244, 208, 63, 0.3);
+            --text-secondary: #9ca3af;
+            --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Nunito', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
+            padding-bottom: 100px;
         }
 
-        /* Animated background */
-        .bg-animation {
+        .bg-gradient {
             position: fixed;
             top: 0;
             left: 0;
@@ -44,344 +50,383 @@
             height: 100%;
             z-index: -1;
             background: 
-                radial-gradient(ellipse at 20% 20%, rgba(155, 89, 182, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(52, 152, 219, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
                 var(--bg-primary);
         }
 
         .container {
             max-width: 100%;
             padding: 16px;
-            padding-bottom: 100px;
         }
 
-        /* Header / Profile */
-        .profile-header {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-            border-radius: 20px;
+        /* Header with Logo */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 900;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: var(--gradient-purple);
+            border-radius: 24px;
             padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-glow);
+            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
         }
 
-        .profile-header::before {
+        .balance-card::before {
             content: '';
             position: absolute;
             top: -50%;
             right: -50%;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(244, 208, 63, 0.1) 0%, transparent 70%);
-            pointer-events: none;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         }
 
-        .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Russo One', sans-serif;
-            font-size: 28px;
-            box-shadow: 0 0 20px rgba(244, 208, 63, 0.4);
-            border: 3px solid var(--accent-gold);
-        }
-
-        .user-details h1 {
-            font-family: 'Russo One', sans-serif;
-            font-size: 22px;
-            margin-bottom: 4px;
-            background: linear-gradient(90deg, var(--text-primary), var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .user-level {
-            color: var(--accent-gold);
+        .balance-label {
             font-size: 14px;
-            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 4px;
         }
 
-        .vip-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #000;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            margin-left: 8px;
-            text-transform: uppercase;
+        .balance-value {
+            font-size: 42px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .balance-icon {
+            font-size: 32px;
         }
 
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 14px;
+        .stat-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 14px 10px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stat-card:active {
-            transform: scale(0.98);
         }
 
         .stat-icon {
-            font-size: 24px;
-            margin-bottom: 6px;
+            font-size: 22px;
+            margin-bottom: 4px;
         }
 
         .stat-value {
-            font-family: 'Russo One', sans-serif;
-            font-size: 20px;
-            color: var(--accent-gold);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-purple-light);
         }
 
         .stat-label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* Skills Section */
+        /* Section */
         .section {
             margin-bottom: 20px;
         }
 
         .section-title {
-            font-family: 'Russo One', sans-serif;
             font-size: 18px;
+            font-weight: 800;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text-primary);
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--accent-gold), transparent);
-        }
-
-        .skills-container {
-            display: flex;
+        /* Button Grid */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
-        .skill-item {
-            flex: 1;
+        .button-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .action-btn {
             background: var(--bg-card);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .skill-icon {
-            font-size: 28px;
-            margin-bottom: 4px;
-        }
-
-        .skill-name {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .skill-level {
-            font-family: 'Russo One', sans-serif;
-            font-size: 18px;
-            color: var(--accent-purple);
-        }
-
-        /* Garage Section */
-        .garage-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .garage-count {
-            background: var(--accent-gold);
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .cars-list {
+            border: none;
+            border-radius: 16px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
         }
 
-        .car-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        .action-btn:active {
+            transform: scale(0.96);
+            background: var(--bg-card-hover);
+        }
+
+        .action-btn-icon {
+            font-size: 28px;
+        }
+
+        .action-btn-text {
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            background: var(--gradient-purple);
+        }
+
+        .action-btn.gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1a1a2e;
+        }
+
+        .action-btn.green {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .action-btn.red {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        }
+
+        /* Full Width Button */
+        .full-btn {
+            width: 100%;
+            background: var(--bg-card);
+            border: none;
             border-radius: 16px;
             padding: 16px;
             display: flex;
             align-items: center;
             gap: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .car-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple), var(--accent-blue));
-        }
-
-        .car-card:active {
-            transform: scale(0.98);
-        }
-
-        .car-card.legendary {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 20px rgba(244, 208, 63, 0.2);
-        }
-
-        .car-card.legendary::before {
-            background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .car-emoji {
-            font-size: 40px;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        .car-info {
-            flex: 1;
-        }
-
-        .car-name {
-            font-family: 'Russo One', sans-serif;
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .car-price {
-            font-size: 13px;
-            color: var(--accent-green);
-        }
-
-        .car-tuning {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .tuning-badge {
-            background: rgba(155, 89, 182, 0.3);
-            color: var(--accent-purple);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-        }
-
-        .car-count {
-            background: var(--bg-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
             color: var(--text-primary);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: 'Russo One', sans-serif;
-            font-size: 14px;
+            margin-bottom: 10px;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
+        .full-btn:active {
+            transform: scale(0.98);
+            background: var(--bg-card-hover);
         }
 
-        .empty-state-icon {
-            font-size: 60px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-
-        .empty-state-text {
-            font-size: 14px;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 20%);
-            padding: 20px 16px;
-            padding-bottom: calc(20px + env(safe-area-inset-bottom));
-        }
-
-        .chat-button {
+        .full-btn-icon {
+            font-size: 28px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+        }
+
+        .full-btn-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .full-btn-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .full-btn-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .full-btn-arrow {
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-item-icon {
+            font-size: 32px;
+        }
+
+        .modal-item-info {
+            flex: 1;
+        }
+
+        .modal-item-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-item-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .modal-item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .modal-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #0088cc 0%, #005f99 100%);
+            border-radius: 16px;
             border: none;
-            border-radius: 14px;
-            color: white;
-            font-family: 'Russo One', sans-serif;
             font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 16px;
         }
 
-        .chat-button:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(0, 136, 204, 0.3);
+        .modal-btn.primary {
+            background: var(--gradient-purple);
+            color: white;
         }
 
-        .chat-button-icon {
-            font-size: 20px;
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        /* Loading State */
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        /* Loading */
         .loading {
             display: flex;
             flex-direction: column;
@@ -395,7 +440,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid var(--bg-card);
-            border-top-color: var(--accent-gold);
+            border-top-color: var(--accent-purple);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -404,171 +449,591 @@
             to { transform: rotate(360deg); }
         }
 
-        .loading-text {
-            font-family: 'Russo One', sans-serif;
+        /* Inventory Item */
+        .inv-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .inv-item-icon {
+            font-size: 36px;
+        }
+
+        .inv-item-info {
+            flex: 1;
+        }
+
+        .inv-item-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .inv-item-count {
+            font-size: 12px;
+            color: var(--accent-purple-light);
+        }
+
+        /* Car Card */
+        .car-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .car-card.legendary {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .car-emoji {
+            font-size: 36px;
+        }
+
+        .car-info {
+            flex: 1;
+        }
+
+        .car-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .car-price {
+            font-size: 12px;
+            color: var(--accent-green);
+        }
+
+        .car-count {
+            background: var(--accent-purple);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Promo Input */
+        .promo-input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px solid var(--bg-card);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 12px;
+        }
+
+        .promo-input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
             color: var(--text-secondary);
         }
 
-        /* Error State */
-        .error-state {
-            text-align: center;
-            padding: 40px 20px;
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
         }
 
-        .error-icon {
-            font-size: 60px;
-            margin-bottom: 16px;
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .error-text {
-            color: var(--accent-red);
-            margin-bottom: 20px;
-        }
-
-        .retry-button {
-            background: var(--accent-gold);
-            color: #000;
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-family: 'Russo One', sans-serif;
+            color: var(--text-secondary);
             cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.2s;
         }
 
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+        .nav-item.active {
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .nav-icon {
+            font-size: 24px;
         }
 
-        .slide-up {
-            animation: slideUp 0.4s ease-out;
+        .nav-text {
+            font-size: 10px;
+            font-weight: 700;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Referral */
+        .ref-link {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 12px;
+            word-break: break-all;
+            color: var(--accent-purple-light);
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-purple);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+    <div class="bg-gradient"></div>
     
-    <div id="app">
-        <!-- Loading state -->
-        <div id="loading" class="loading">
-            <div class="loader"></div>
-            <div class="loading-text">Загрузка...</div>
-        </div>
+    <!-- Loading -->
+    <div id="loading" class="loading">
+        <div class="loader"></div>
+        <div style="color: var(--text-secondary); font-weight: 600;">Загрузка...</div>
+    </div>
 
-        <!-- Main content (hidden initially) -->
-        <div id="content" class="container" style="display: none;">
-            <!-- Profile Header -->
-            <div class="profile-header fade-in">
-                <div class="profile-info">
-                    <div class="avatar" id="avatar">?</div>
-                    <div class="user-details">
-                        <h1 id="username">Загрузка...</h1>
-                        <div class="user-level">
-                            Уровень <span id="level">1</span>
-                            <span id="vip-badge" class="vip-badge" style="display: none;"></span>
-                        </div>
+    <!-- Main App -->
+    <div id="app" style="display: none;">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <img src="data:image/png;base64,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" 
+                     alt="Tayner Bot" class="logo">
+                <span class="header-title">TAYNER</span>
+            </div>
+
+            <!-- Pages -->
+            
+            <!-- Main Page -->
+            <div id="page-main" class="page active">
+                <!-- Balance Card -->
+                <div class="balance-card">
+                    <div class="balance-label">Мой баланс</div>
+                    <div class="balance-value">
+                        <span class="balance-icon">🪙</span>
+                        <span id="coins-display">0</span>
                     </div>
                 </div>
+
+                <!-- Stats -->
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">🪙</div>
-                        <div class="stat-value" id="coins">0</div>
-                        <div class="stat-label">Монеты</div>
-                    </div>
-                    <div class="stat-card">
+                    <div class="stat-item">
                         <div class="stat-icon">⬛</div>
-                        <div class="stat-value" id="black">0</div>
-                        <div class="stat-label">Black Coins</div>
+                        <div class="stat-value" id="black-display">0</div>
+                        <div class="stat-label">Black</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-item">
                         <div class="stat-icon">🎫</div>
-                        <div class="stat-value" id="tickets">0</div>
+                        <div class="stat-value" id="tickets-display">0</div>
                         <div class="stat-label">Билеты</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">💎</div>
-                        <div class="stat-value" id="crystals">0</div>
-                        <div class="stat-label">Кристаллы</div>
+                    <div class="stat-item">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value" id="level-display">1</div>
+                        <div class="stat-label">Уровень</div>
                     </div>
                 </div>
+
+                <!-- Daily Button -->
+                <button class="full-btn" onclick="claimDaily()" id="daily-btn">
+                    <div class="full-btn-icon">🎁</div>
+                    <div class="full-btn-content">
+                        <div class="full-btn-title">Ежедневный бонус</div>
+                        <div class="full-btn-subtitle">Забери награду!</div>
+                    </div>
+                    <div class="full-btn-arrow">›</div>
+                </button>
+
+                <!-- Interactions Section -->
+                <div class="section">
+                    <div class="section-title">🎮 Взаимодействия</div>
+                    <div class="button-grid">
+                        <button class="action-btn" onclick="showModal('inventory')">
+                            <span class="action-btn-icon">🎒</span>
+                            <span class="action-btn-text">Инвентарь</span>
+                        </button>
+                        <button class="action-btn" onclick="showModal('shop')">
+                            <span class="action-btn-icon">🛒</span>
+                            <span class="action-btn-text">Магазин</span>
+                        </button>
+                        <button class="action-btn" onclick="showModal('cars')">
+                            <span class="action-btn-icon">🚗</span>
+                            <span class="action-btn-text">Автосалон</span>
+                        </button>
+                        <button class="action-btn" onclick="showModal('business')">
+                            <span class="action-btn-icon">🏢</span>
+                            <span class="action-btn-text">Бизнесы</span>
+                        </button>
+                        <button class="action-btn" onclick="showModal('containers')">
+                            <span class="action-btn-icon">📦</span>
+                            <span class="action-btn-text">Контейнеры</span>
+                        </button>
+                        <button class="action-btn" onclick="showModal('cases')">
+                            <span class="action-btn-icon">🎰</span>
+                            <span class="action-btn-text">Кейсы</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Earn Section -->
+                <div class="section">
+                    <div class="section-title">💰 Заработай монеты</div>
+                    <button class="full-btn" onclick="showModal('referral')">
+                        <div class="full-btn-icon">👥</div>
+                        <div class="full-btn-content">
+                            <div class="full-btn-title">Рефералы</div>
+                            <div class="full-btn-subtitle">Приглашай друзей и получай бонусы</div>
+                        </div>
+                        <div class="full-btn-arrow">›</div>
+                    </button>
+                    <button class="full-btn" onclick="showModal('promo')">
+                        <div class="full-btn-icon">🎟️</div>
+                        <div class="full-btn-content">
+                            <div class="full-btn-title">Промокод</div>
+                            <div class="full-btn-subtitle">Введи промокод и получи награду</div>
+                        </div>
+                        <div class="full-btn-arrow">›</div>
+                    </button>
+                </div>
+
+                <!-- Support Section -->
+                <div class="section">
+                    <div class="section-title">⭐ Поддержать проект</div>
+                    <button class="full-btn" onclick="showModal('donate')">
+                        <div class="full-btn-icon" style="background: rgba(251, 191, 36, 0.2);">💫</div>
+                        <div class="full-btn-content">
+                            <div class="full-btn-title">Магазин за звёзды</div>
+                            <div class="full-btn-subtitle">Эксклюзивные товары за Telegram Stars</div>
+                        </div>
+                        <div class="full-btn-arrow">›</div>
+                    </button>
+                </div>
+
+                <!-- Withdraw Section -->
+                <div class="section">
+                    <button class="full-btn" onclick="showModal('withdraw')" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.3) 100%);">
+                        <div class="full-btn-icon" style="background: rgba(139, 92, 246, 0.3);">💸</div>
+                        <div class="full-btn-content">
+                            <div class="full-btn-title">Вывод BLACK COIN</div>
+                            <div class="full-btn-subtitle" id="black-balance-text">Доступно: 0 BC</div>
+                        </div>
+                        <div class="full-btn-arrow">›</div>
+                    </button>
+                </div>
+
+                <!-- Chat Button -->
+                <button class="full-btn" onclick="openChat()" style="background: linear-gradient(135deg, #0088cc 0%, #005f99 100%);">
+                    <div class="full-btn-icon" style="background: rgba(255,255,255,0.2);">💬</div>
+                    <div class="full-btn-content">
+                        <div class="full-btn-title">Перейти в чат</div>
+                        <div class="full-btn-subtitle">@taynerchat</div>
+                    </div>
+                    <div class="full-btn-arrow">›</div>
+                </button>
             </div>
 
-            <!-- Skills Section -->
-            <div class="section slide-up" style="animation-delay: 0.1s;">
-                <div class="section-title">⚔️ Навыки</div>
-                <div class="skills-container">
-                    <div class="skill-item">
-                        <div class="skill-icon">💪</div>
-                        <div class="skill-name">Сила</div>
-                        <div class="skill-level" id="strength">1</div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">🍀</div>
-                        <div class="skill-name">Удача</div>
-                        <div class="skill-level" id="luck">1</div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">👻</div>
-                        <div class="skill-name">Иллюзия</div>
-                        <div class="skill-level" id="illusion">—</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Garage Section -->
-            <div class="section slide-up" style="animation-delay: 0.2s;">
-                <div class="garage-header">
-                    <div class="section-title" style="margin-bottom: 0;">🚗 Гараж</div>
-                    <div class="garage-count" id="car-count">0 авто</div>
-                </div>
-                <div class="cars-list" id="cars-list">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🚗</div>
-                        <div class="empty-state-text">У вас пока нет машин<br>Купите первую в магазине!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Error state (hidden initially) -->
-        <div id="error" class="error-state" style="display: none;">
-            <div class="error-icon">😕</div>
-            <div class="error-text" id="error-text">Не удалось загрузить данные</div>
-            <button class="retry-button" onclick="loadData()">Попробовать снова</button>
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <button class="chat-button" onclick="openChat()">
-            <span class="chat-button-icon">💬</span>
-            <span>Перейти в чат</span>
-        </button>
+    <!-- Modals -->
+    
+    <!-- Inventory Modal -->
+    <div class="modal-overlay" id="modal-inventory" onclick="closeModal(event, 'inventory')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🎒 Инвентарь</div>
+                <button class="modal-close" onclick="closeModal(null, 'inventory')">×</button>
+            </div>
+            <div id="inventory-content">
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <div>Загрузка...</div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Shop Modal -->
+    <div class="modal-overlay" id="modal-shop" onclick="closeModal(event, 'shop')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🛒 Магазин</div>
+                <button class="modal-close" onclick="closeModal(null, 'shop')">×</button>
+            </div>
+            <div id="shop-content">
+                <div class="modal-item" onclick="buyItem('ticket')">
+                    <div class="modal-item-icon">🎫</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Билет босса</div>
+                        <div class="modal-item-desc">Для атаки босса</div>
+                    </div>
+                    <div class="modal-item-price">50 🪙</div>
+                </div>
+                <div class="modal-item" onclick="buyItem('strength')">
+                    <div class="modal-item-icon">💪</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Улучшить силу</div>
+                        <div class="modal-item-desc">+1 к урону</div>
+                    </div>
+                    <div class="modal-item-price">1000 🪙</div>
+                </div>
+                <div class="modal-item" onclick="buyItem('luck')">
+                    <div class="modal-item-icon">🍀</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Улучшить удачу</div>
+                        <div class="modal-item-desc">+1 к шансу крита</div>
+                    </div>
+                    <div class="modal-item-price">1000 🪙</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cars Modal -->
+    <div class="modal-overlay" id="modal-cars" onclick="closeModal(event, 'cars')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🚗 Мои авто</div>
+                <button class="modal-close" onclick="closeModal(null, 'cars')">×</button>
+            </div>
+            <div id="cars-content">
+                <div class="empty-state">
+                    <div class="empty-icon">🚗</div>
+                    <div>Загрузка...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Modal -->
+    <div class="modal-overlay" id="modal-business" onclick="closeModal(event, 'business')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🏢 Бизнесы</div>
+                <button class="modal-close" onclick="closeModal(null, 'business')">×</button>
+            </div>
+            <div id="business-content">
+                <div class="empty-state">
+                    <div class="empty-icon">🏢</div>
+                    <div>Загрузка...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Containers Modal -->
+    <div class="modal-overlay" id="modal-containers" onclick="closeModal(event, 'containers')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">📦 Контейнеры</div>
+                <button class="modal-close" onclick="closeModal(null, 'containers')">×</button>
+            </div>
+            <div class="modal-content">
+                <p style="margin-bottom: 16px;">Контейнеры появляются по расписанию в чате. Участвуйте в аукционах!</p>
+                <button class="modal-btn primary" onclick="openChat()">Перейти в чат</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cases Modal -->
+    <div class="modal-overlay" id="modal-cases" onclick="closeModal(event, 'cases')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🎰 Кейсы</div>
+                <button class="modal-close" onclick="closeModal(null, 'cases')">×</button>
+            </div>
+            <div id="cases-content">
+                <div class="modal-item" onclick="buyCase('homeless')">
+                    <div class="modal-item-icon">📦</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Кейс бомжа</div>
+                        <div class="modal-item-desc">Монеты, BC или авто</div>
+                    </div>
+                    <div class="modal-item-price">100 🪙</div>
+                </div>
+                <div class="modal-item" onclick="buyCase('standard')">
+                    <div class="modal-item-icon">📦</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Стандартный</div>
+                        <div class="modal-item-desc">Шанс на Rolls-Royce</div>
+                    </div>
+                    <div class="modal-item-price">500 🪙</div>
+                </div>
+                <div class="modal-item" onclick="buyCase('auto')">
+                    <div class="modal-item-icon">🚗</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Авто-кейс</div>
+                        <div class="modal-item-desc">Только автомобили!</div>
+                    </div>
+                    <div class="modal-item-price">1000 🪙</div>
+                </div>
+                <div class="modal-item" onclick="buyCase('newyear')">
+                    <div class="modal-item-icon">🎄</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Новогодний</div>
+                        <div class="modal-item-desc">Редкий: ГАЗ-69!</div>
+                    </div>
+                    <div class="modal-item-price">1500 🪙</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Modal -->
+    <div class="modal-overlay" id="modal-referral" onclick="closeModal(event, 'referral')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">👥 Рефералы</div>
+                <button class="modal-close" onclick="closeModal(null, 'referral')">×</button>
+            </div>
+            <div class="modal-content">
+                <p style="margin-bottom: 16px;">Приглашай друзей и получай <b>10 монет</b> за каждого!</p>
+                <div class="ref-link" id="ref-link">Загрузка...</div>
+                <button class="copy-btn" onclick="copyRefLink()">📋 Скопировать ссылку</button>
+                <p style="margin-top: 16px; text-align: center;">
+                    Приглашено: <b id="ref-count">0</b> друзей
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Modal -->
+    <div class="modal-overlay" id="modal-promo" onclick="closeModal(event, 'promo')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">🎟️ Промокод</div>
+                <button class="modal-close" onclick="closeModal(null, 'promo')">×</button>
+            </div>
+            <div class="modal-content">
+                <input type="text" class="promo-input" id="promo-input" placeholder="Введите промокод">
+                <button class="modal-btn primary" onclick="activatePromo()">Активировать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donate Modal -->
+    <div class="modal-overlay" id="modal-donate" onclick="closeModal(event, 'donate')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">💫 Магазин за звёзды</div>
+                <button class="modal-close" onclick="closeModal(null, 'donate')">×</button>
+            </div>
+            <div id="donate-content">
+                <div class="modal-item">
+                    <div class="modal-item-icon">🪙</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">100 монет</div>
+                        <div class="modal-item-desc">Пополни баланс</div>
+                    </div>
+                    <div class="modal-item-price">10 ⭐</div>
+                </div>
+                <div class="modal-item">
+                    <div class="modal-item-icon">💎</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">VIP Platinum</div>
+                        <div class="modal-item-desc">7 дней VIP статуса</div>
+                    </div>
+                    <div class="modal-item-price">300 ⭐</div>
+                </div>
+                <div class="modal-item">
+                    <div class="modal-item-icon">🚗</div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-name">Авто-кейс</div>
+                        <div class="modal-item-desc">Только автомобили</div>
+                    </div>
+                    <div class="modal-item-price">100 ⭐</div>
+                </div>
+                <p style="margin-top: 16px; color: var(--text-secondary); text-align: center;">
+                    Для покупки используйте команды в боте
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal-overlay" id="modal-withdraw" onclick="closeModal(event, 'withdraw')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">💸 Вывод BLACK COIN</div>
+                <button class="modal-close" onclick="closeModal(null, 'withdraw')">×</button>
+            </div>
+            <div class="modal-content">
+                <p style="margin-bottom: 16px;">
+                    Ваш баланс: <b id="withdraw-balance">0</b> BC
+                </p>
+                <p style="margin-bottom: 16px; color: var(--text-secondary);">
+                    Минимум для вывода: 100 BC<br>
+                    Курс: 1 BC = 1 RUB
+                </p>
+                <button class="modal-btn primary" onclick="requestWithdraw()">Запросить вывод</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
     <script>
-        // Telegram WebApp initialization
+        // Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // Set theme colors
-        document.documentElement.style.setProperty('--bg-primary', tg.themeParams.bg_color || '#0f0f1a');
-        
-        // Car data (same as in bot)
-        const CARS_DATA = {
+        // API URL - замените на ваш ngrok/localhost.run URL
+        const API_URL = 'https://9cb24e103627dd.lhr.life';
+
+        // User data
+        const user = tg.initDataUnsafe?.user;
+        const userId = user?.id;
+        let userData = null;
+
+        // Cars data
+        const CARS = {
             "zaz_968": { name: "ЗАЗ-968", price: 10, emoji: "🚗", tier: "common" },
-            "oka": { name: "ОКА (ВАЗ-1111)", price: 25, emoji: "🚗", tier: "common" },
+            "oka": { name: "ОКА", price: 25, emoji: "🚗", tier: "common" },
             "lada_2107": { name: "Lada 2107", price: 30, emoji: "🚗", tier: "common" },
             "w210": { name: "Mercedes W210", price: 50, emoji: "🚙", tier: "common" },
             "k5": { name: "Kia K5", price: 100, emoji: "🚙", tier: "common" },
@@ -576,239 +1041,221 @@
             "c90": { name: "Volvo C90", price: 200, emoji: "🚙", tier: "uncommon" },
             "e60": { name: "BMW E60", price: 200, emoji: "🚙", tier: "uncommon" },
             "x5": { name: "BMW X5", price: 250, emoji: "🚙", tier: "uncommon" },
-            "lexus_is200": { name: "Lexus IS200", price: 350, emoji: "🚙", tier: "uncommon" },
             "m5_f90": { name: "BMW M5 F90", price: 500, emoji: "🏎️", tier: "rare" },
             "e63s": { name: "Mercedes E63s", price: 500, emoji: "🏎️", tier: "rare" },
-            "demon_srt": { name: "Dodge Demon SRT", price: 500, emoji: "🏎️", tier: "rare" },
-            "supra_a80": { name: "Toyota Supra A80", price: 650, emoji: "🏎️", tier: "rare" },
-            "g63": { name: "Mercedes G63", price: 800, emoji: "🚙", tier: "rare" },
-            "escalade": { name: "Cadillac Escalade", price: 800, emoji: "🚙", tier: "rare" },
-            "cls_amg": { name: "Mercedes CLS 6.3 AMG", price: 1000, emoji: "🏎️", tier: "epic" },
             "r8": { name: "Audi R8", price: 1100, emoji: "🏎️", tier: "epic" },
-            "nissan_240sx": { name: "Nissan 240SX", price: 1500, emoji: "🏎️", tier: "epic" },
             "urus": { name: "Lamborghini Urus", price: 1500, emoji: "🏎️", tier: "epic" },
-            "batmobile": { name: "BatMobile", price: 2000, emoji: "🦇", tier: "legendary" },
             "cullinan": { name: "Rolls-Royce Cullinan", price: 3000, emoji: "🚙", tier: "legendary" },
             "veyron": { name: "Bugatti Veyron", price: 8000, emoji: "🏎️", tier: "legendary" },
             "divo": { name: "Bugatti Divo", price: 10000, emoji: "🏎️", tier: "legendary" },
-            "hotrod_132f": { name: "Hot-Rod 132F", price: 10000, emoji: "🔥", tier: "legendary" },
-            "m5_cs": { name: "BMW M5 CS", price: 20000, emoji: "🏎️", tier: "legendary" },
-            "ferrari_enzo": { name: "Ferrari Enzo", price: 25000, emoji: "🏎️", tier: "legendary" },
-            "lanoire": { name: "Bugatti LaNoire", price: 50000, emoji: "🏎️", tier: "legendary" },
             "gaz_69": { name: "ГАЗ-69", price: 0, emoji: "🚙", tier: "legendary" },
         };
 
-        // API base URL вашего VPS
-        const API_URL = 'https://35d915f84790a9.lhr.life/api';
+        // Format number
+        function formatNum(n) {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
 
-        // Get user data from Telegram
-        const user = tg.initDataUnsafe?.user;
-        const userId = user?.id || null;
-        
-        // Отладка - показываем user_id
-        console.log('Telegram user:', user);
-        console.log('User ID:', userId);
-        console.log('initData:', tg.initData);
-        console.log('initDataUnsafe:', tg.initDataUnsafe);
-
-        // Format number with spaces
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        // Show toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            setTimeout(() => toast.className = 'toast', 3000);
         }
 
         // Load user data
         async function loadData() {
-            showLoading();
-            
-            // Если нет user_id от Telegram - показываем ошибку
             if (!userId) {
-                console.error('No user ID from Telegram!');
-                // Пробуем всё равно загрузить демо
-            }
-            
-            const requestId = userId || 'demo';
-            console.log('Requesting data for ID:', requestId);
-            
-            try {
-                // Try to load from API
-                const response = await fetch(`${API_URL}/user/${requestId}`, {
-                    headers: {
-                        'X-Telegram-Init-Data': tg.initData
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    renderData(data);
-                } else {
-                    throw new Error('API error');
-                }
-            } catch (error) {
-                console.log('Using demo data:', error);
-                // Use demo data if API fails
-                renderData(getDemoData());
-            }
-        }
-
-        // Demo data for testing
-        function getDemoData() {
-            return {
-                user: {
-                    id: user?.id || 123456789,
-                    name: user?.first_name || "Игрок",
-                    level: 15,
-                    vip: "gold"
-                },
-                balance: {
-                    coins: 12450,
-                    black: 890,
-                    tickets: 7,
-                    crystals: 150
-                },
-                skills: {
-                    strength: 2,
-                    luck: 3,
-                    illusion: true
-                },
-                cars: [
-                    { id: "cullinan", count: 1, tuning: { engine: 2, turbo: 1 } },
-                    { id: "m5_f90", count: 2, tuning: { engine: 3, transmission: 2, turbo: 3, nitro: 1 } },
-                    { id: "r8", count: 1, tuning: {} },
-                    { id: "w210", count: 3, tuning: {} },
-                    { id: "zaz_968", count: 1, tuning: {} }
-                ]
-            };
-        }
-
-        // Render data to UI
-        function renderData(data) {
-            // User info
-            document.getElementById('avatar').textContent = data.user.name.charAt(0).toUpperCase();
-            document.getElementById('username').textContent = data.user.name;
-            document.getElementById('level').textContent = data.user.level;
-
-            // VIP badge
-            const vipBadge = document.getElementById('vip-badge');
-            if (data.user.vip) {
-                vipBadge.style.display = 'inline-block';
-                const vipNames = { silver: '🥈 Silver', gold: '🥇 Gold', platinum: '💎 Platinum' };
-                vipBadge.textContent = vipNames[data.user.vip] || data.user.vip;
-            }
-
-            // Balance
-            document.getElementById('coins').textContent = formatNumber(data.balance.coins);
-            document.getElementById('black').textContent = formatNumber(data.balance.black);
-            document.getElementById('tickets').textContent = data.balance.tickets;
-            document.getElementById('crystals').textContent = formatNumber(data.balance.crystals);
-
-            // Skills
-            document.getElementById('strength').textContent = data.skills.strength;
-            document.getElementById('luck').textContent = data.skills.luck;
-            document.getElementById('illusion').textContent = data.skills.illusion ? '✓' : '—';
-
-            // Cars
-            renderCars(data.cars);
-
-            showContent();
-        }
-
-        // Render cars list
-        function renderCars(cars) {
-            const container = document.getElementById('cars-list');
-            const countEl = document.getElementById('car-count');
-            
-            if (!cars || cars.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🚗</div>
-                        <div class="empty-state-text">У вас пока нет машин<br>Купите первую в магазине!</div>
-                    </div>
-                `;
-                countEl.textContent = '0 авто';
+                showToast('Откройте в Telegram', 'error');
                 return;
             }
 
-            // Sort by price (most expensive first)
-            cars.sort((a, b) => {
-                const priceA = CARS_DATA[a.id]?.price || 0;
-                const priceB = CARS_DATA[b.id]?.price || 0;
-                return priceB - priceA;
-            });
-
-            // Count total
-            const totalCount = cars.reduce((sum, car) => sum + car.count, 0);
-            countEl.textContent = `${totalCount} авто`;
-
-            // Render cards
-            container.innerHTML = cars.map((car, index) => {
-                const carData = CARS_DATA[car.id] || { name: car.id, price: 0, emoji: '🚗', tier: 'common' };
-                const isLegendary = carData.tier === 'legendary';
-                
-                // Tuning badges
-                let tuningHtml = '';
-                if (car.tuning && Object.keys(car.tuning).length > 0) {
-                    const tuningIcons = {
-                        engine: '⚙️',
-                        transmission: '🔧',
-                        turbo: '💨',
-                        nitro: '🔥'
-                    };
-                    tuningHtml = '<div class="car-tuning">' + 
-                        Object.entries(car.tuning)
-                            .filter(([_, lvl]) => lvl > 0)
-                            .map(([type, lvl]) => `<span class="tuning-badge">${tuningIcons[type] || '🔧'} ${lvl}</span>`)
-                            .join('') +
-                        '</div>';
+            try {
+                const response = await fetch(`${API_URL}/user/${userId}`);
+                if (response.ok) {
+                    userData = await response.json();
+                    updateUI();
                 }
+            } catch (e) {
+                console.error('API Error:', e);
+                // Use demo data
+                userData = {
+                    balance: { coins: 1000, black: 100, tickets: 5, crystals: 50 },
+                    user: { level: 5 },
+                    cars: [],
+                    businesses: [],
+                    skills: { strength: 1, luck: 1 }
+                };
+                updateUI();
+            }
 
-                return `
-                    <div class="car-card ${isLegendary ? 'legendary' : ''}" style="animation-delay: ${index * 0.05}s;">
-                        <div class="car-emoji">${carData.emoji}</div>
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+        }
+
+        // Update UI
+        function updateUI() {
+            if (!userData) return;
+
+            document.getElementById('coins-display').textContent = formatNum(userData.balance.coins);
+            document.getElementById('black-display').textContent = formatNum(userData.balance.black);
+            document.getElementById('tickets-display').textContent = userData.balance.tickets;
+            document.getElementById('level-display').textContent = userData.user.level;
+            document.getElementById('black-balance-text').textContent = `Доступно: ${formatNum(userData.balance.black)} BC`;
+            document.getElementById('withdraw-balance').textContent = formatNum(userData.balance.black);
+
+            // Referral link
+            document.getElementById('ref-link').textContent = `https://t.me/YOUR_BOT?start=ref${userId}`;
+        }
+
+        // Modal functions
+        function showModal(name) {
+            document.getElementById(`modal-${name}`).classList.add('active');
+            
+            if (name === 'cars') loadCars();
+            if (name === 'inventory') loadInventory();
+            if (name === 'business') loadBusiness();
+        }
+
+        function closeModal(event, name) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById(`modal-${name}`).classList.remove('active');
+        }
+
+        // Load cars
+        function loadCars() {
+            const container = document.getElementById('cars-content');
+            if (!userData?.cars?.length) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🚗</div><div>У вас нет машин</div></div>';
+                return;
+            }
+
+            let html = '';
+            userData.cars.sort((a, b) => (CARS[b.id]?.price || 0) - (CARS[a.id]?.price || 0));
+            
+            userData.cars.forEach(car => {
+                const info = CARS[car.id] || { name: car.id, emoji: '🚗', tier: 'common', price: 0 };
+                const isLegendary = info.tier === 'legendary';
+                html += `
+                    <div class="car-card ${isLegendary ? 'legendary' : ''}">
+                        <div class="car-emoji">${info.emoji}</div>
                         <div class="car-info">
-                            <div class="car-name">${carData.name}</div>
-                            <div class="car-price">${carData.price > 0 ? formatNumber(carData.price) + ' 🪙' : '🏆 Уникальная'}</div>
-                            ${tuningHtml}
+                            <div class="car-name">${info.name}</div>
+                            <div class="car-price">${info.price > 0 ? formatNum(info.price) + ' 🪙' : '🏆 Уникальная'}</div>
                         </div>
                         ${car.count > 1 ? `<div class="car-count">×${car.count}</div>` : ''}
                     </div>
                 `;
-            }).join('');
+            });
+            container.innerHTML = html;
         }
 
-        // UI state functions
-        function showLoading() {
-            document.getElementById('loading').style.display = 'flex';
-            document.getElementById('content').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
+        // Load inventory
+        function loadInventory() {
+            const container = document.getElementById('inventory-content');
+            let html = '';
+            
+            html += `
+                <div class="inv-item">
+                    <div class="inv-item-icon">🎫</div>
+                    <div class="inv-item-info">
+                        <div class="inv-item-name">Билеты босса</div>
+                        <div class="inv-item-count">${userData?.balance?.tickets || 0} шт.</div>
+                    </div>
+                </div>
+                <div class="inv-item">
+                    <div class="inv-item-icon">💎</div>
+                    <div class="inv-item-info">
+                        <div class="inv-item-name">Кристаллы</div>
+                        <div class="inv-item-count">${userData?.balance?.crystals || 0} шт.</div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html || '<div class="empty-state"><div class="empty-icon">📦</div><div>Инвентарь пуст</div></div>';
         }
 
-        function showContent() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
+        // Load business
+        function loadBusiness() {
+            const container = document.getElementById('business-content');
+            if (!userData?.businesses?.length) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div><div>У вас нет бизнесов</div></div>';
+                return;
+            }
+            // TODO: render businesses
+            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div><div>Скоро...</div></div>';
         }
 
-        function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error-text').textContent = message || 'Не удалось загрузить данные';
+        // Actions
+        async function claimDaily() {
+            try {
+                const response = await fetch(`${API_URL}/daily/${userId}`, { method: 'POST' });
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`Получено: ${data.reward} монет! 🎉`);
+                    userData.balance.coins += data.reward;
+                    updateUI();
+                } else {
+                    showToast(data.message || 'Бонус уже получен', 'error');
+                }
+            } catch (e) {
+                showToast('Используйте /daily в боте', 'error');
+            }
         }
 
-        // Open chat
+        async function buyItem(item) {
+            showToast(`Используйте команду в боте`, 'error');
+        }
+
+        async function buyCase(type) {
+            showToast(`Используйте /cases в боте`, 'error');
+        }
+
+        async function activatePromo() {
+            const code = document.getElementById('promo-input').value.trim();
+            if (!code) {
+                showToast('Введите промокод', 'error');
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/promo/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`Промокод активирован! 🎉`);
+                    loadData();
+                } else {
+                    showToast(data.message || 'Неверный промокод', 'error');
+                }
+            } catch (e) {
+                showToast('Ошибка. Попробуйте в боте.', 'error');
+            }
+        }
+
+        function copyRefLink() {
+            const link = document.getElementById('ref-link').textContent;
+            navigator.clipboard.writeText(link);
+            showToast('Ссылка скопирована! 📋');
+        }
+
+        function requestWithdraw() {
+            if (userData.balance.black < 100) {
+                showToast('Минимум 100 BC для вывода', 'error');
+                return;
+            }
+            showToast('Используйте /withdraw в боте');
+        }
+
         function openChat() {
             tg.openTelegramLink('https://t.me/taynerchat');
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set main button (optional)
-            tg.MainButton.setText('Открыть чат');
-            tg.MainButton.onClick(openChat);
-            // tg.MainButton.show(); // Uncomment to show main button
-
-            loadData();
-        });
+        // Init
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
 </html>
