@@ -19,7 +19,6 @@
             --accent-green: #34d399;
             --accent-blue: #60a5fa;
             --accent-red: #f87171;
-            --accent-pink: #f472b6;
             --text-primary: #ffffff;
             --text-secondary: #9ca3af;
             --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
@@ -39,7 +38,7 @@
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            padding-bottom: 100px;
+            padding-bottom: 80px;
         }
 
         .bg-gradient {
@@ -55,29 +54,25 @@
                 var(--bg-primary);
         }
 
-        .container {
-            max-width: 100%;
-            padding: 16px;
-        }
-
-        /* Header with Logo */
+        /* Header */
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px 0;
-            gap: 12px;
+            padding: 16px;
+            gap: 10px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
         }
 
         .header-title {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 900;
             background: var(--gradient-purple);
             -webkit-background-clip: text;
@@ -85,316 +80,454 @@
             background-clip: text;
         }
 
-        /* Balance Card */
-        .balance-card {
-            background: var(--gradient-purple);
-            border-radius: 24px;
-            padding: 24px;
+        /* Pages */
+        .page {
+            display: none;
+            padding: 16px;
+            min-height: calc(100vh - 140px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Tab Bar */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            min-width: 70px;
+        }
+
+        .tab-item.active {
+            color: var(--accent-purple);
+        }
+
+        .tab-item.active .tab-icon {
+            background: rgba(139, 92, 246, 0.2);
+            transform: scale(1.1);
+        }
+
+        .tab-icon {
+            font-size: 24px;
+            padding: 6px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .tab-text {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ========== INFO PAGE ========== */
+        .info-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 16px;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .info-text b {
+            color: var(--text-primary);
+        }
+
+        .command-list {
+            list-style: none;
+        }
+
+        .command-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            gap: 10px;
+        }
+
+        .command-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cmd {
+            color: var(--accent-purple-light);
+            font-weight: 700;
+            min-width: 100px;
+        }
+
+        /* ========== COINS PAGE (Clicker) ========== */
+        .clicker-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+            text-align: center;
+        }
+
+        .clicker-balance {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .clicker-amount {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .coin-button {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 
+                0 10px 40px rgba(251, 191, 36, 0.4),
+                inset 0 -5px 20px rgba(0,0,0,0.2),
+                inset 0 5px 20px rgba(255,255,255,0.3);
+            transition: transform 0.1s, box-shadow 0.1s;
             position: relative;
             overflow: hidden;
         }
 
-        .balance-card::before {
+        .coin-button:active {
+            transform: scale(0.95);
+            box-shadow: 
+                0 5px 20px rgba(251, 191, 36, 0.3),
+                inset 0 -3px 10px rgba(0,0,0,0.2),
+                inset 0 3px 10px rgba(255,255,255,0.3);
+        }
+
+        .coin-button::before {
             content: '';
             position: absolute;
             top: -50%;
-            right: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255,255,255,0.3) 50%,
+                transparent 70%
+            );
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .clicker-progress {
+            margin-top: 24px;
             width: 100%;
+            max-width: 280px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
             height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        }
-
-        .balance-label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 4px;
-        }
-
-        .balance-value {
-            font-size: 42px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .balance-icon {
-            font-size: 32px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 14px 10px;
-            text-align: center;
-        }
-
-        .stat-icon {
-            font-size: 22px;
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--accent-purple-light);
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Section */
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-        }
-
-        /* Button Grid */
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .button-grid-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .action-btn {
-            background: var(--bg-card);
-            border: none;
-            border-radius: 16px;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--text-primary);
-        }
-
-        .action-btn:active {
-            transform: scale(0.96);
-            background: var(--bg-card-hover);
-        }
-
-        .action-btn-icon {
-            font-size: 28px;
-        }
-
-        .action-btn-text {
-            font-size: 12px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .action-btn.primary {
             background: var(--gradient-purple);
+            border-radius: 6px;
+            transition: width 0.3s;
         }
 
-        .action-btn.gold {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1a1a2e;
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-        .action-btn.green {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        .clicker-cooldown {
+            margin-top: 20px;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            color: var(--accent-red);
+            font-weight: 700;
         }
 
-        .action-btn.red {
-            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        /* Float animation for +1 */
+        .float-plus {
+            position: fixed;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-gold);
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
         }
 
-        /* Full Width Button */
-        .full-btn {
-            width: 100%;
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        /* ========== SHOP PAGE ========== */
+        .shop-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .shop-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .shop-tab {
             background: var(--bg-card);
             border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .shop-tab.active {
+            background: var(--gradient-purple);
+            color: white;
+        }
+
+        .shop-content {
+            display: none;
+        }
+
+        .shop-content.active {
+            display: block;
+        }
+
+        .shop-item {
+            background: var(--bg-card);
             border-radius: 16px;
             padding: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--text-primary);
-            margin-bottom: 10px;
+            transition: all 0.2s;
         }
 
-        .full-btn:active {
+        .shop-item:active {
             transform: scale(0.98);
             background: var(--bg-card-hover);
         }
 
-        .full-btn-icon {
-            font-size: 28px;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(139, 92, 246, 0.2);
-            border-radius: 12px;
+        .shop-item-icon {
+            font-size: 36px;
+            min-width: 50px;
+            text-align: center;
         }
 
-        .full-btn-content {
+        .shop-item-info {
             flex: 1;
-            text-align: left;
         }
 
-        .full-btn-title {
+        .shop-item-name {
             font-size: 15px;
             font-weight: 700;
+            margin-bottom: 2px;
         }
 
-        .full-btn-subtitle {
+        .shop-item-desc {
             font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .full-btn-arrow {
-            font-size: 20px;
-            color: var(--text-secondary);
+        .shop-item-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent-gold);
+            text-align: right;
         }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
+        .shop-item.legendary {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--bg-secondary);
-            border-radius: 24px 24px 0 0;
-            width: 100%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
+        /* ========== PROFILE PAGE ========== */
+        .profile-header {
+            background: var(--gradient-purple);
+            border-radius: 20px;
             padding: 24px;
-            animation: slideUp 0.3s ease;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        .modal-header {
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .profile-level {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
             margin-bottom: 20px;
         }
 
-        .modal-title {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .modal-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: none;
-            color: var(--text-primary);
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .modal-item {
+        .profile-stat {
             background: var(--bg-card);
             border-radius: 16px;
             padding: 16px;
+            text-align: center;
+        }
+
+        .profile-stat-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .profile-stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-purple-light);
+        }
+
+        .profile-stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .profile-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .profile-section-title {
+            font-size: 16px;
+            font-weight: 800;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
             gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .modal-item-icon {
-            font-size: 32px;
+        .profile-item:last-child {
+            border-bottom: none;
         }
 
-        .modal-item-info {
+        .profile-item-icon {
+            font-size: 28px;
+        }
+
+        .profile-item-name {
             flex: 1;
+            font-size: 14px;
         }
 
-        .modal-item-name {
-            font-size: 15px;
+        .profile-item-value {
+            font-size: 14px;
+            color: var(--accent-purple-light);
             font-weight: 700;
-            color: var(--text-primary);
         }
 
-        .modal-item-desc {
-            font-size: 12px;
+        .empty-state {
+            text-align: center;
+            padding: 30px;
             color: var(--text-secondary);
         }
 
-        .modal-item-price {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--accent-gold);
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 16px;
-        }
-
-        .modal-btn.primary {
-            background: var(--gradient-purple);
-            color: white;
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
         }
 
         /* Toast */
@@ -449,568 +582,479 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Inventory Item */
-        .inv-item {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
-        .inv-item-icon {
-            font-size: 36px;
-        }
-
-        .inv-item-info {
-            flex: 1;
-        }
-
-        .inv-item-name {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .inv-item-count {
-            font-size: 12px;
-            color: var(--accent-purple-light);
-        }
-
-        /* Car Card */
-        .car-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .car-card.legendary {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-        }
-
-        .car-emoji {
-            font-size: 36px;
-        }
-
-        .car-info {
-            flex: 1;
-        }
-
-        .car-name {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .car-price {
-            font-size: 12px;
-            color: var(--accent-green);
-        }
-
-        .car-count {
-            background: var(--accent-purple);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        /* Promo Input */
-        .promo-input {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: 2px solid var(--bg-card);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 16px;
-            font-family: inherit;
-            margin-bottom: 12px;
-        }
-
-        .promo-input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-        }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
+        /* Chat Button */
+        .chat-btn {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            background: none;
+            bottom: 90px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
             border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-
-        .nav-item.active {
-            color: var(--accent-purple);
-            background: rgba(139, 92, 246, 0.1);
-        }
-
-        .nav-icon {
-            font-size: 24px;
-        }
-
-        .nav-text {
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        /* Pages */
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* Referral */
-        .ref-link {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 14px;
-            font-size: 12px;
-            word-break: break-all;
-            color: var(--accent-purple-light);
-            margin-bottom: 12px;
-        }
-
-        .copy-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--gradient-purple);
-            border: none;
-            border-radius: 12px;
             color: white;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 24px;
             cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
-    
+
     <!-- Loading -->
     <div id="loading" class="loading">
         <div class="loader"></div>
         <div style="color: var(--text-secondary); font-weight: 600;">Загрузка...</div>
     </div>
 
-    <!-- Main App -->
+    <!-- App -->
     <div id="app" style="display: none;">
-        <div class="container">
-            <!-- Header -->
-            <div class="header">
-                <img src="data:image/png;base64,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" 
-                     alt="Tayner Bot" class="logo">
-                <span class="header-title">TAYNER</span>
+        
+        <!-- Header -->
+        <div class="header">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD8UlEQVR4nO2ZW4hVVRjHf2tm1IZEk7TMSrNCI7WyF8lueDBKyMrKHqYHe7CHLkRFRUQPEYEP0UVKKgjKgi5WUGQXM7OsqShLK7uYZWVlF7uYZTbT/8s6e85Ze5+zz5wzzjlzBvaDzey91rfW/6zvtm6jqqpqqqqqqvqv6yGwPvBT4HngYODJwE5FtxwGHAucBtwGPJl3y9HARsATgfPz7jiUV8ANwO/AE/qb5i8CFue1fRnwCHBb0S1VHhG4FfgT+HNeW0/JuxU4E7gcWJl3z2PAusClRXdcDbweeH7Rg9YEzgCWFN1yL3AbsCbwfxYBf86r70bgGuDUojv+C5wDLM2753bgJuCCvPaOBa4Azi26pQL+Blal+yv7TwK+n9f2JcC/gFOAy4puWQrcAPwtr719gHOL7vg38BSwNu+uy4HLgTOL7rgWWAScm3fHlcBlQNE9/wEuzWvvCGBt4Pm8tp4PnJt3y8XA7Xn3XAIszGv7KOCqvFuqqqqqqqr+n3UAsBnwX2CYivcI4BHAB4CtgNcD/wCeyavveOBXwJN5t/wd+CXwz7z67gK8Dfgjr76/AMcAJwCLitq+CHgP8HTePU8ArgYuKLrlQuCavPv+CFwI/Dqv3suBl+fd80fgHODkonv+DPwpr727AL8HLsm77c/A74puuRh4W949/wqcnXfHX4H/yavvbuA3wAV5t/0V+FVeexcDvwSekXfPn4Hf5N2zAPgVcFFRe38AfpnXzj3Au4Hv59XzF+BXwPl5t/0p8HTg13n1/BG4CLgs7567gF8D/5dX35+Bi4Hz8u74G/C7vLb+BPwMeFlee/8FXJZ3x9+B0/Jq+yvws7y2/xf4Zd49fwTOyrvlb8Bv8tq5BPgjcG5ee/8CPCvvjr8Cp+XV8zfgJ8CFefX8Efhx3i1/Bn6ed8ufgHOK7vkz8NO8dr4M+AVwQV59fwQuybvlD8Bv8tr5C+DXwLl59fwRODfvjj8DPyq643fAD4te+ztwMvDbvDseCPw0r75LgF8AF+Td8RfguXn1/QE4Ja+dvwLOy7vn98CP8+6pdoC/By7Pu+cPwE/z2vkb4Fy8ti8E/gxcmnfP34Hf5NVzGfDfwLl59/we+GFee38HfJ93y++A7+e19zfAr4Hz8tr5E/D9vHb+F/hRXjt/A5xbdMdvge/n1fNH4Id59/wW+G5ee38BfAtcmFffb4Dv5t3xO+D7ee38CfhB3h2/BX6Y185fAN8GLsy777fAt/La+Svgu3n3/A74fl47fwZ8L++ePwA/yGvnb4Dz8u77PfCDvHb+DPhOXjt/BXw7754/AD/Ia+dvgPPy7vs98IO8e34LfCfvnj8Bv0u7ZVVVVVVVVY2ofwOLSvpPZxEDCQAAAABJRU5ErkJggg==" 
+                 alt="Logo" class="logo">
+            <span class="header-title">TAYNER</span>
+        </div>
+
+        <!-- ========== INFO PAGE ========== -->
+        <div id="page-info" class="page active">
+            <div class="info-section">
+                <div class="info-title">👋 Добро пожаловать!</div>
+                <div class="info-text">
+                    <b>Tayner Bot</b> — это бот с экономикой, машинами, бизнесами и многим другим!
+                    <br><br>
+                    Комментируй посты в канале и получай монеты. Прокачивай навыки, покупай машины и бизнесы, открывай кейсы!
+                </div>
             </div>
 
-            <!-- Pages -->
-            
-            <!-- Main Page -->
-            <div id="page-main" class="page active">
-                <!-- Balance Card -->
-                <div class="balance-card">
-                    <div class="balance-label">Мой баланс</div>
-                    <div class="balance-value">
-                        <span class="balance-icon">🪙</span>
-                        <span id="coins-display">0</span>
-                    </div>
+            <div class="info-section">
+                <div class="info-title">💰 Как заработать монеты</div>
+                <div class="info-text">
+                    • <b>Комментарии</b> — пиши в чате и получай монеты<br>
+                    • <b>Реакции</b> — ставь реакции на посты<br>
+                    • <b>Ежедневный бонус</b> — /daily каждый день<br>
+                    • <b>Кликер</b> — кликай на монету во вкладке "Монеты"<br>
+                    • <b>Работа</b> — устройся на работу /job<br>
+                    • <b>Бизнесы</b> — покупай и собирай прибыль<br>
+                    • <b>Гонки</b> — побеждай в гонках /race<br>
+                    • <b>Рефералы</b> — приглашай друзей
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">📝 Основные команды</div>
+                <ul class="command-list">
+                    <li><span class="cmd">/start</span> Начать игру</li>
+                    <li><span class="cmd">/daily</span> Ежедневный бонус</li>
+                    <li><span class="cmd">/mycoins</span> Мой баланс</li>
+                    <li><span class="cmd">/inventory</span> Инвентарь</li>
+                    <li><span class="cmd">/shop</span> Магазин</li>
+                    <li><span class="cmd">/cars</span> Автосалон</li>
+                    <li><span class="cmd">/mycars</span> Мои машины</li>
+                    <li><span class="cmd">/biz</span> Бизнесы</li>
+                    <li><span class="cmd">/job</span> Работа</li>
+                    <li><span class="cmd">/race</span> Гонки</li>
+                    <li><span class="cmd">/cont</span> Контейнеры</li>
+                    <li><span class="cmd">/donate</span> Донат меню</li>
+                    <li><span class="cmd">/promo</span> Промокоды</li>
+                    <li><span class="cmd">/withdraw</span> Вывод BC</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">💬 Чат</div>
+                <div class="info-text">
+                    Присоединяйся к нашему чату для общения и получения монет!
+                    <br><br>
+                    <a href="https://t.me/taynerchat" style="color: var(--accent-purple-light); text-decoration: none; font-weight: 700;">@taynerchat</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== COINS PAGE (Clicker) ========== -->
+        <div id="page-coins" class="page">
+            <div class="clicker-container">
+                <div class="clicker-balance">Твой баланс</div>
+                <div class="clicker-amount">
+                    <span>🪙</span>
+                    <span id="clicker-coins">0</span>
                 </div>
 
-                <!-- Stats -->
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon">⬛</div>
-                        <div class="stat-value" id="black-display">0</div>
-                        <div class="stat-label">Black</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">🎫</div>
-                        <div class="stat-value" id="tickets-display">0</div>
-                        <div class="stat-label">Билеты</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">⭐</div>
-                        <div class="stat-value" id="level-display">1</div>
-                        <div class="stat-label">Уровень</div>
-                    </div>
-                </div>
-
-                <!-- Daily Button -->
-                <button class="full-btn" onclick="claimDaily()" id="daily-btn">
-                    <div class="full-btn-icon">🎁</div>
-                    <div class="full-btn-content">
-                        <div class="full-btn-title">Ежедневный бонус</div>
-                        <div class="full-btn-subtitle">Забери награду!</div>
-                    </div>
-                    <div class="full-btn-arrow">›</div>
+                <button class="coin-button" id="coin-btn" onclick="clickCoin(event)">
+                    🪙
                 </button>
 
-                <!-- Interactions Section -->
-                <div class="section">
-                    <div class="section-title">🎮 Взаимодействия</div>
-                    <div class="button-grid">
-                        <button class="action-btn" onclick="showModal('inventory')">
-                            <span class="action-btn-icon">🎒</span>
-                            <span class="action-btn-text">Инвентарь</span>
-                        </button>
-                        <button class="action-btn" onclick="showModal('shop')">
-                            <span class="action-btn-icon">🛒</span>
-                            <span class="action-btn-text">Магазин</span>
-                        </button>
-                        <button class="action-btn" onclick="showModal('cars')">
-                            <span class="action-btn-icon">🚗</span>
-                            <span class="action-btn-text">Автосалон</span>
-                        </button>
-                        <button class="action-btn" onclick="showModal('business')">
-                            <span class="action-btn-icon">🏢</span>
-                            <span class="action-btn-text">Бизнесы</span>
-                        </button>
-                        <button class="action-btn" onclick="showModal('containers')">
-                            <span class="action-btn-icon">📦</span>
-                            <span class="action-btn-text">Контейнеры</span>
-                        </button>
-                        <button class="action-btn" onclick="showModal('cases')">
-                            <span class="action-btn-icon">🎰</span>
-                            <span class="action-btn-text">Кейсы</span>
-                        </button>
+                <div class="clicker-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        Нафармлено: <span id="farmed-count">0</span> / 500
                     </div>
                 </div>
 
-                <!-- Earn Section -->
-                <div class="section">
-                    <div class="section-title">💰 Заработай монеты</div>
-                    <button class="full-btn" onclick="showModal('referral')">
-                        <div class="full-btn-icon">👥</div>
-                        <div class="full-btn-content">
-                            <div class="full-btn-title">Рефералы</div>
-                            <div class="full-btn-subtitle">Приглашай друзей и получай бонусы</div>
-                        </div>
-                        <div class="full-btn-arrow">›</div>
-                    </button>
-                    <button class="full-btn" onclick="showModal('promo')">
-                        <div class="full-btn-icon">🎟️</div>
-                        <div class="full-btn-content">
-                            <div class="full-btn-title">Промокод</div>
-                            <div class="full-btn-subtitle">Введи промокод и получи награду</div>
-                        </div>
-                        <div class="full-btn-arrow">›</div>
-                    </button>
-                </div>
-
-                <!-- Support Section -->
-                <div class="section">
-                    <div class="section-title">⭐ Поддержать проект</div>
-                    <button class="full-btn" onclick="showModal('donate')">
-                        <div class="full-btn-icon" style="background: rgba(251, 191, 36, 0.2);">💫</div>
-                        <div class="full-btn-content">
-                            <div class="full-btn-title">Магазин за звёзды</div>
-                            <div class="full-btn-subtitle">Эксклюзивные товары за Telegram Stars</div>
-                        </div>
-                        <div class="full-btn-arrow">›</div>
-                    </button>
-                </div>
-
-                <!-- Withdraw Section -->
-                <div class="section">
-                    <button class="full-btn" onclick="showModal('withdraw')" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.3) 100%);">
-                        <div class="full-btn-icon" style="background: rgba(139, 92, 246, 0.3);">💸</div>
-                        <div class="full-btn-content">
-                            <div class="full-btn-title">Вывод BLACK COIN</div>
-                            <div class="full-btn-subtitle" id="black-balance-text">Доступно: 0 BC</div>
-                        </div>
-                        <div class="full-btn-arrow">›</div>
-                    </button>
-                </div>
-
-                <!-- Chat Button -->
-                <button class="full-btn" onclick="openChat()" style="background: linear-gradient(135deg, #0088cc 0%, #005f99 100%);">
-                    <div class="full-btn-icon" style="background: rgba(255,255,255,0.2);">💬</div>
-                    <div class="full-btn-content">
-                        <div class="full-btn-title">Перейти в чат</div>
-                        <div class="full-btn-subtitle">@taynerchat</div>
-                    </div>
-                    <div class="full-btn-arrow">›</div>
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modals -->
-    
-    <!-- Inventory Modal -->
-    <div class="modal-overlay" id="modal-inventory" onclick="closeModal(event, 'inventory')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🎒 Инвентарь</div>
-                <button class="modal-close" onclick="closeModal(null, 'inventory')">×</button>
-            </div>
-            <div id="inventory-content">
-                <div class="empty-state">
-                    <div class="empty-icon">📦</div>
-                    <div>Загрузка...</div>
+                <div class="clicker-cooldown" id="cooldown-box" style="display: none;">
+                    ⏳ Подожди: <span id="cooldown-time">0:00</span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Shop Modal -->
-    <div class="modal-overlay" id="modal-shop" onclick="closeModal(event, 'shop')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🛒 Магазин</div>
-                <button class="modal-close" onclick="closeModal(null, 'shop')">×</button>
+        <!-- ========== SHOP PAGE ========== -->
+        <div id="page-shop" class="page">
+            <div class="shop-tabs">
+                <button class="shop-tab active" onclick="switchShopTab('cars')">🚗 Авто</button>
+                <button class="shop-tab" onclick="switchShopTab('biz')">🏢 Бизнесы</button>
+                <button class="shop-tab" onclick="switchShopTab('cases')">🎰 Кейсы</button>
+                <button class="shop-tab" onclick="switchShopTab('containers')">📦 Контейнеры</button>
+                <button class="shop-tab" onclick="switchShopTab('vip')">⭐ VIP</button>
+                <button class="shop-tab" onclick="switchShopTab('donate')">💎 Донат</button>
             </div>
-            <div id="shop-content">
-                <div class="modal-item" onclick="buyItem('ticket')">
-                    <div class="modal-item-icon">🎫</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Билет босса</div>
-                        <div class="modal-item-desc">Для атаки босса</div>
+
+            <!-- Cars -->
+            <div id="shop-cars" class="shop-content active">
+                <div class="shop-item" onclick="showToast('Используйте /buy_car zaz_968')">
+                    <div class="shop-item-icon">🚗</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">ЗАЗ-968</div>
+                        <div class="shop-item-desc">Легендарный запорожец</div>
                     </div>
-                    <div class="modal-item-price">50 🪙</div>
+                    <div class="shop-item-price">10 🪙</div>
                 </div>
-                <div class="modal-item" onclick="buyItem('strength')">
-                    <div class="modal-item-icon">💪</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Улучшить силу</div>
-                        <div class="modal-item-desc">+1 к урону</div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_car w210')">
+                    <div class="shop-item-icon">🚙</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Mercedes W210</div>
+                        <div class="shop-item-desc">Классика немецкого автопрома</div>
                     </div>
-                    <div class="modal-item-price">1000 🪙</div>
+                    <div class="shop-item-price">50 🪙</div>
                 </div>
-                <div class="modal-item" onclick="buyItem('luck')">
-                    <div class="modal-item-icon">🍀</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Улучшить удачу</div>
-                        <div class="modal-item-desc">+1 к шансу крита</div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_car m5_f90')">
+                    <div class="shop-item-icon">🏎️</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">BMW M5 F90</div>
+                        <div class="shop-item-desc">Мощь и скорость</div>
                     </div>
-                    <div class="modal-item-price">1000 🪙</div>
+                    <div class="shop-item-price">500 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_car r8')">
+                    <div class="shop-item-icon">🏎️</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Audi R8</div>
+                        <div class="shop-item-desc">Суперкар</div>
+                    </div>
+                    <div class="shop-item-price">1100 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте /buy_car cullinan')">
+                    <div class="shop-item-icon">🚙</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Rolls-Royce Cullinan</div>
+                        <div class="shop-item-desc">Роскошь и престиж</div>
+                    </div>
+                    <div class="shop-item-price">3000 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте /buy_car veyron')">
+                    <div class="shop-item-icon">🏎️</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Bugatti Veyron</div>
+                        <div class="shop-item-desc">Легенда скорости</div>
+                    </div>
+                    <div class="shop-item-price">8000 🪙</div>
+                </div>
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    Полный список: /cars в боте
+                </div>
+            </div>
+
+            <!-- Business -->
+            <div id="shop-biz" class="shop-content">
+                <div class="shop-item" onclick="showToast('Используйте /buy_biz arz_diner')">
+                    <div class="shop-item-icon">🍔</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Закусочная в Арзамасе</div>
+                        <div class="shop-item-desc">Доход: 5-10 монет/день</div>
+                    </div>
+                    <div class="shop-item-price">1000 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_biz arz_auto')">
+                    <div class="shop-item-icon">🚗</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Автосалон в Арзамасе</div>
+                        <div class="shop-item-desc">Доход: 200 монет/день</div>
+                    </div>
+                    <div class="shop-item-price">15000 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_biz arz_247')">
+                    <div class="shop-item-icon">🏪</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">24/7 в Арзамасе</div>
+                        <div class="shop-item-desc">Доход: 200 монет/день</div>
+                    </div>
+                    <div class="shop-item-price">20000 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /buy_biz arz_gas')">
+                    <div class="shop-item-icon">⛽</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">АЗС в Арзамасе</div>
+                        <div class="shop-item-desc">Доход: 250 монет/день</div>
+                    </div>
+                    <div class="shop-item-price">25000 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте /buy_biz tech_center')">
+                    <div class="shop-item-icon">🔧</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Технический центр</div>
+                        <div class="shop-item-desc">+5% от тюнинга всех игроков</div>
+                    </div>
+                    <div class="shop-item-price">40000 🪙</div>
+                </div>
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    Полный список: /biz в боте
+                </div>
+            </div>
+
+            <!-- Cases -->
+            <div id="shop-cases" class="shop-content">
+                <div class="shop-item" onclick="showToast('Используйте команды в боте')">
+                    <div class="shop-item-icon">📦</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Кейс бомжа</div>
+                        <div class="shop-item-desc">Монеты, BC или авто</div>
+                    </div>
+                    <div class="shop-item-price">100 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте команды в боте')">
+                    <div class="shop-item-icon">📦</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Стандартный кейс</div>
+                        <div class="shop-item-desc">Шанс на Rolls-Royce (5%)</div>
+                    </div>
+                    <div class="shop-item-price">500 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте команды в боте')">
+                    <div class="shop-item-icon">🚗</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Авто-кейс</div>
+                        <div class="shop-item-desc">Только автомобили!</div>
+                    </div>
+                    <div class="shop-item-price">1000 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте команды в боте')">
+                    <div class="shop-item-icon">🎄</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Новогодний кейс</div>
+                        <div class="shop-item-desc">Редкий: ГАЗ-69 (4%)</div>
+                    </div>
+                    <div class="shop-item-price">1500 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте команды в боте')">
+                    <div class="shop-item-icon">💎</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Особый кейс</div>
+                        <div class="shop-item-desc">Только топ-авто!</div>
+                    </div>
+                    <div class="shop-item-price">500 💎</div>
+                </div>
+            </div>
+
+            <!-- Containers -->
+            <div id="shop-containers" class="shop-content">
+                <div class="shop-item" onclick="showToast('Контейнеры появляются по расписанию')">
+                    <div class="shop-item-icon">🇷🇺</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Контейнер Россия</div>
+                        <div class="shop-item-desc">Стартовая цена: 25 монет</div>
+                    </div>
+                    <div class="shop-item-price">Аукцион</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Контейнеры появляются по расписанию')">
+                    <div class="shop-item-icon">🇩🇪</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Контейнер Германия</div>
+                        <div class="shop-item-desc">Стартовая цена: 200 монет</div>
+                    </div>
+                    <div class="shop-item-price">Аукцион</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Контейнеры появляются по расписанию')">
+                    <div class="shop-item-icon">🇦🇪</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Контейнер Дубай</div>
+                        <div class="shop-item-desc">Стартовая цена: 1000 монет</div>
+                    </div>
+                    <div class="shop-item-price">Аукцион</div>
+                </div>
+                <div style="padding: 20px; color: var(--text-secondary); text-align: center;">
+                    Контейнеры появляются в 12:00, 15:00, 17:00, 20:00 МСК<br>
+                    Следите за чатом @taynerchat
+                </div>
+            </div>
+
+            <!-- VIP -->
+            <div id="shop-vip" class="shop-content">
+                <div class="shop-item" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">🥈</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">VIP Silver</div>
+                        <div class="shop-item-desc">+2% к работе, -2 сек КД</div>
+                    </div>
+                    <div class="shop-item-price">300 🪙</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">🥇</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">VIP Gold</div>
+                        <div class="shop-item-desc">+4% прибыли, +1 BC/час</div>
+                    </div>
+                    <div class="shop-item-price">2000 🪙</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">💎</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">VIP Platinum</div>
+                        <div class="shop-item-desc">+10% прибыли, +2 BC/час</div>
+                    </div>
+                    <div class="shop-item-price">3000 🪙 / 300 ⭐</div>
+                </div>
+            </div>
+
+            <!-- Donate -->
+            <div id="shop-donate" class="shop-content">
+                <div class="shop-item" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">🪙</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">100 монет</div>
+                        <div class="shop-item-desc">Пополни баланс</div>
+                    </div>
+                    <div class="shop-item-price">10 ⭐</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">⚡</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Бустер x2 монеты</div>
+                        <div class="shop-item-desc">24 часа двойных монет</div>
+                    </div>
+                    <div class="shop-item-price">125 ⭐</div>
+                </div>
+                <div class="shop-item" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">🚗</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Авто-кейс</div>
+                        <div class="shop-item-desc">Только автомобили</div>
+                    </div>
+                    <div class="shop-item-price">100 ⭐</div>
+                </div>
+                <div class="shop-item legendary" onclick="showToast('Используйте /donate в боте')">
+                    <div class="shop-item-icon">🎁</div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-name">Уникальный контейнер</div>
+                        <div class="shop-item-desc">50% шанс на топ-авто</div>
+                    </div>
+                    <div class="shop-item-price">250 ⭐</div>
+                </div>
+                <div style="padding: 20px; color: var(--text-secondary); text-align: center;">
+                    Для покупки используйте /donate в боте
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Cars Modal -->
-    <div class="modal-overlay" id="modal-cars" onclick="closeModal(event, 'cars')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🚗 Мои авто</div>
-                <button class="modal-close" onclick="closeModal(null, 'cars')">×</button>
+        <!-- ========== PROFILE PAGE ========== -->
+        <div id="page-profile" class="page">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profile-avatar">👤</div>
+                <div class="profile-name" id="profile-name">Игрок</div>
+                <div class="profile-level">Уровень <span id="profile-level">1</span></div>
             </div>
-            <div id="cars-content">
-                <div class="empty-state">
-                    <div class="empty-icon">🚗</div>
-                    <div>Загрузка...</div>
+
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-icon">🪙</div>
+                    <div class="profile-stat-value" id="profile-coins">0</div>
+                    <div class="profile-stat-label">Монеты</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-icon">⬛</div>
+                    <div class="profile-stat-value" id="profile-black">0</div>
+                    <div class="profile-stat-label">Black Coin</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-icon">🎫</div>
+                    <div class="profile-stat-value" id="profile-tickets">0</div>
+                    <div class="profile-stat-label">Билеты</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-icon">💎</div>
+                    <div class="profile-stat-value" id="profile-crystals">0</div>
+                    <div class="profile-stat-label">Кристаллы</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Business Modal -->
-    <div class="modal-overlay" id="modal-business" onclick="closeModal(event, 'business')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🏢 Бизнесы</div>
-                <button class="modal-close" onclick="closeModal(null, 'business')">×</button>
-            </div>
-            <div id="business-content">
-                <div class="empty-state">
-                    <div class="empty-icon">🏢</div>
-                    <div>Загрузка...</div>
+            <div class="profile-section">
+                <div class="profile-section-title">📊 Статистика</div>
+                <div class="profile-item">
+                    <div class="profile-item-icon">⏱️</div>
+                    <div class="profile-item-name">Время в боте</div>
+                    <div class="profile-item-value" id="profile-time">—</div>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-item-icon">⭐</div>
+                    <div class="profile-item-name">Задоначено звёзд</div>
+                    <div class="profile-item-value" id="profile-donated">0</div>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-item-icon">👥</div>
+                    <div class="profile-item-name">Рефералов</div>
+                    <div class="profile-item-value" id="profile-refs">0</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Containers Modal -->
-    <div class="modal-overlay" id="modal-containers" onclick="closeModal(event, 'containers')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">📦 Контейнеры</div>
-                <button class="modal-close" onclick="closeModal(null, 'containers')">×</button>
-            </div>
-            <div class="modal-content">
-                <p style="margin-bottom: 16px;">Контейнеры появляются по расписанию в чате. Участвуйте в аукционах!</p>
-                <button class="modal-btn primary" onclick="openChat()">Перейти в чат</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cases Modal -->
-    <div class="modal-overlay" id="modal-cases" onclick="closeModal(event, 'cases')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🎰 Кейсы</div>
-                <button class="modal-close" onclick="closeModal(null, 'cases')">×</button>
-            </div>
-            <div id="cases-content">
-                <div class="modal-item" onclick="buyCase('homeless')">
-                    <div class="modal-item-icon">📦</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Кейс бомжа</div>
-                        <div class="modal-item-desc">Монеты, BC или авто</div>
+            <div class="profile-section">
+                <div class="profile-section-title">🚗 Мои авто (<span id="cars-count">0</span>)</div>
+                <div id="profile-cars">
+                    <div class="empty-state">
+                        <div class="empty-icon">🚗</div>
+                        <div>Нет машин</div>
                     </div>
-                    <div class="modal-item-price">100 🪙</div>
-                </div>
-                <div class="modal-item" onclick="buyCase('standard')">
-                    <div class="modal-item-icon">📦</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Стандартный</div>
-                        <div class="modal-item-desc">Шанс на Rolls-Royce</div>
-                    </div>
-                    <div class="modal-item-price">500 🪙</div>
-                </div>
-                <div class="modal-item" onclick="buyCase('auto')">
-                    <div class="modal-item-icon">🚗</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Авто-кейс</div>
-                        <div class="modal-item-desc">Только автомобили!</div>
-                    </div>
-                    <div class="modal-item-price">1000 🪙</div>
-                </div>
-                <div class="modal-item" onclick="buyCase('newyear')">
-                    <div class="modal-item-icon">🎄</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Новогодний</div>
-                        <div class="modal-item-desc">Редкий: ГАЗ-69!</div>
-                    </div>
-                    <div class="modal-item-price">1500 🪙</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Referral Modal -->
-    <div class="modal-overlay" id="modal-referral" onclick="closeModal(event, 'referral')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">👥 Рефералы</div>
-                <button class="modal-close" onclick="closeModal(null, 'referral')">×</button>
-            </div>
-            <div class="modal-content">
-                <p style="margin-bottom: 16px;">Приглашай друзей и получай <b>10 монет</b> за каждого!</p>
-                <div class="ref-link" id="ref-link">Загрузка...</div>
-                <button class="copy-btn" onclick="copyRefLink()">📋 Скопировать ссылку</button>
-                <p style="margin-top: 16px; text-align: center;">
-                    Приглашено: <b id="ref-count">0</b> друзей
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Promo Modal -->
-    <div class="modal-overlay" id="modal-promo" onclick="closeModal(event, 'promo')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">🎟️ Промокод</div>
-                <button class="modal-close" onclick="closeModal(null, 'promo')">×</button>
-            </div>
-            <div class="modal-content">
-                <input type="text" class="promo-input" id="promo-input" placeholder="Введите промокод">
-                <button class="modal-btn primary" onclick="activatePromo()">Активировать</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Donate Modal -->
-    <div class="modal-overlay" id="modal-donate" onclick="closeModal(event, 'donate')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">💫 Магазин за звёзды</div>
-                <button class="modal-close" onclick="closeModal(null, 'donate')">×</button>
-            </div>
-            <div id="donate-content">
-                <div class="modal-item">
-                    <div class="modal-item-icon">🪙</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">100 монет</div>
-                        <div class="modal-item-desc">Пополни баланс</div>
+            <div class="profile-section">
+                <div class="profile-section-title">🏢 Мои бизнесы (<span id="biz-count">0</span>)</div>
+                <div id="profile-biz">
+                    <div class="empty-state">
+                        <div class="empty-icon">🏢</div>
+                        <div>Нет бизнесов</div>
                     </div>
-                    <div class="modal-item-price">10 ⭐</div>
                 </div>
-                <div class="modal-item">
-                    <div class="modal-item-icon">💎</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">VIP Platinum</div>
-                        <div class="modal-item-desc">7 дней VIP статуса</div>
-                    </div>
-                    <div class="modal-item-price">300 ⭐</div>
-                </div>
-                <div class="modal-item">
-                    <div class="modal-item-icon">🚗</div>
-                    <div class="modal-item-info">
-                        <div class="modal-item-name">Авто-кейс</div>
-                        <div class="modal-item-desc">Только автомобили</div>
-                    </div>
-                    <div class="modal-item-price">100 ⭐</div>
-                </div>
-                <p style="margin-top: 16px; color: var(--text-secondary); text-align: center;">
-                    Для покупки используйте команды в боте
-                </p>
             </div>
         </div>
-    </div>
 
-    <!-- Withdraw Modal -->
-    <div class="modal-overlay" id="modal-withdraw" onclick="closeModal(event, 'withdraw')">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">💸 Вывод BLACK COIN</div>
-                <button class="modal-close" onclick="closeModal(null, 'withdraw')">×</button>
-            </div>
-            <div class="modal-content">
-                <p style="margin-bottom: 16px;">
-                    Ваш баланс: <b id="withdraw-balance">0</b> BC
-                </p>
-                <p style="margin-bottom: 16px; color: var(--text-secondary);">
-                    Минимум для вывода: 100 BC<br>
-                    Курс: 1 BC = 1 RUB
-                </p>
-                <button class="modal-btn primary" onclick="requestWithdraw()">Запросить вывод</button>
-            </div>
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <button class="tab-item active" onclick="switchTab('info')">
+                <span class="tab-icon">ℹ️</span>
+                <span class="tab-text">Инфо</span>
+            </button>
+            <button class="tab-item" onclick="switchTab('coins')">
+                <span class="tab-icon">🪙</span>
+                <span class="tab-text">Монеты</span>
+            </button>
+            <button class="tab-item" onclick="switchTab('shop')">
+                <span class="tab-icon">🛒</span>
+                <span class="tab-text">Магазин</span>
+            </button>
+            <button class="tab-item" onclick="switchTab('profile')">
+                <span class="tab-icon">👤</span>
+                <span class="tab-text">Профиль</span>
+            </button>
         </div>
+
+        <!-- Chat Button -->
+        <button class="chat-btn" onclick="openChat()">💬</button>
     </div>
 
     <!-- Toast -->
@@ -1022,33 +1066,32 @@
         tg.ready();
         tg.expand();
 
-        // API URL - замените на ваш ngrok/localhost.run URL
-        const API_URL = 'https://9cb24e103627dd.lhr.life/api';
+        // API URL - ЗАМЕНИТЕ НА ВАШ
+        const API_URL = 'https://c70daf636b8e58.lhr.life';
 
-        // User data
+        // User
         const user = tg.initDataUnsafe?.user;
         const userId = user?.id;
         let userData = null;
 
+        // Clicker state
+        const CLICK_LIMIT = 500;
+        const COOLDOWN_MINUTES = 500;
+        let clickCount = 0;
+        let cooldownEnd = 0;
+        let cooldownInterval = null;
+
         // Cars data
         const CARS = {
-            "zaz_968": { name: "ЗАЗ-968", price: 10, emoji: "🚗", tier: "common" },
-            "oka": { name: "ОКА", price: 25, emoji: "🚗", tier: "common" },
-            "lada_2107": { name: "Lada 2107", price: 30, emoji: "🚗", tier: "common" },
-            "w210": { name: "Mercedes W210", price: 50, emoji: "🚙", tier: "common" },
-            "k5": { name: "Kia K5", price: 100, emoji: "🚙", tier: "common" },
-            "grand_cherokee": { name: "Grand Cherokee", price: 150, emoji: "🚙", tier: "uncommon" },
-            "c90": { name: "Volvo C90", price: 200, emoji: "🚙", tier: "uncommon" },
-            "e60": { name: "BMW E60", price: 200, emoji: "🚙", tier: "uncommon" },
-            "x5": { name: "BMW X5", price: 250, emoji: "🚙", tier: "uncommon" },
-            "m5_f90": { name: "BMW M5 F90", price: 500, emoji: "🏎️", tier: "rare" },
-            "e63s": { name: "Mercedes E63s", price: 500, emoji: "🏎️", tier: "rare" },
-            "r8": { name: "Audi R8", price: 1100, emoji: "🏎️", tier: "epic" },
-            "urus": { name: "Lamborghini Urus", price: 1500, emoji: "🏎️", tier: "epic" },
-            "cullinan": { name: "Rolls-Royce Cullinan", price: 3000, emoji: "🚙", tier: "legendary" },
-            "veyron": { name: "Bugatti Veyron", price: 8000, emoji: "🏎️", tier: "legendary" },
-            "divo": { name: "Bugatti Divo", price: 10000, emoji: "🏎️", tier: "legendary" },
-            "gaz_69": { name: "ГАЗ-69", price: 0, emoji: "🚙", tier: "legendary" },
+            "zaz_968": { name: "ЗАЗ-968", emoji: "🚗" },
+            "oka": { name: "ОКА", emoji: "🚗" },
+            "w210": { name: "Mercedes W210", emoji: "🚙" },
+            "m5_f90": { name: "BMW M5 F90", emoji: "🏎️" },
+            "r8": { name: "Audi R8", emoji: "🏎️" },
+            "cullinan": { name: "Rolls-Royce Cullinan", emoji: "🚙" },
+            "veyron": { name: "Bugatti Veyron", emoji: "🏎️" },
+            "divo": { name: "Bugatti Divo", emoji: "🏎️" },
+            "gaz_69": { name: "ГАЗ-69", emoji: "🚙" },
         };
 
         // Format number
@@ -1056,206 +1099,238 @@
             return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
 
-        // Show toast
-        function showToast(message, type = 'success') {
+        // Toast
+        function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
-            toast.textContent = message;
+            toast.textContent = msg;
             toast.className = 'toast show ' + type;
             setTimeout(() => toast.className = 'toast', 3000);
         }
 
-        // Load user data
+        // Switch tab
+        function switchTab(tab) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(`page-${tab}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            if (tab === 'profile') loadProfile();
+            if (tab === 'coins') loadClicker();
+        }
+
+        // Switch shop tab
+        function switchShopTab(tab) {
+            document.querySelectorAll('.shop-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(`shop-${tab}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Load data
         async function loadData() {
             if (!userId) {
-                showToast('Откройте в Telegram', 'error');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
                 return;
             }
 
             try {
-                const response = await fetch(`${API_URL}/user/${userId}`);
-                if (response.ok) {
-                    userData = await response.json();
-                    updateUI();
+                const res = await fetch(`${API_URL}/user/${userId}`);
+                if (res.ok) {
+                    userData = await res.json();
                 }
             } catch (e) {
                 console.error('API Error:', e);
-                // Use demo data
-                userData = {
-                    balance: { coins: 1000, black: 100, tickets: 5, crystals: 50 },
-                    user: { level: 5 },
-                    cars: [],
-                    businesses: [],
-                    skills: { strength: 1, luck: 1 }
-                };
-                updateUI();
             }
+
+            // Load clicker state from localStorage
+            loadClickerState();
 
             document.getElementById('loading').style.display = 'none';
             document.getElementById('app').style.display = 'block';
         }
 
-        // Update UI
-        function updateUI() {
+        // Load profile
+        function loadProfile() {
             if (!userData) return;
 
-            document.getElementById('coins-display').textContent = formatNum(userData.balance.coins);
-            document.getElementById('black-display').textContent = formatNum(userData.balance.black);
-            document.getElementById('tickets-display').textContent = userData.balance.tickets;
-            document.getElementById('level-display').textContent = userData.user.level;
-            document.getElementById('black-balance-text').textContent = `Доступно: ${formatNum(userData.balance.black)} BC`;
-            document.getElementById('withdraw-balance').textContent = formatNum(userData.balance.black);
+            document.getElementById('profile-name').textContent = user?.first_name || 'Игрок';
+            document.getElementById('profile-avatar').textContent = (user?.first_name || 'И')[0];
+            document.getElementById('profile-level').textContent = userData.user?.level || 1;
+            document.getElementById('profile-coins').textContent = formatNum(userData.balance?.coins || 0);
+            document.getElementById('profile-black').textContent = formatNum(userData.balance?.black || 0);
+            document.getElementById('profile-tickets').textContent = userData.balance?.tickets || 0;
+            document.getElementById('profile-crystals').textContent = userData.balance?.crystals || 0;
+            document.getElementById('profile-refs').textContent = userData.referrals?.count || 0;
 
-            // Referral link
-            document.getElementById('ref-link').textContent = `https://t.me/TaynerShopBot?start=ref${userId}`;
-        }
+            // Cars
+            const carsContainer = document.getElementById('profile-cars');
+            const cars = userData.cars || [];
+            document.getElementById('cars-count').textContent = cars.length;
 
-        // Modal functions
-        function showModal(name) {
-            document.getElementById(`modal-${name}`).classList.add('active');
-            
-            if (name === 'cars') loadCars();
-            if (name === 'inventory') loadInventory();
-            if (name === 'business') loadBusiness();
-        }
-
-        function closeModal(event, name) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById(`modal-${name}`).classList.remove('active');
-        }
-
-        // Load cars
-        function loadCars() {
-            const container = document.getElementById('cars-content');
-            if (!userData?.cars?.length) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🚗</div><div>У вас нет машин</div></div>';
-                return;
+            if (cars.length === 0) {
+                carsContainer.innerHTML = '<div class="empty-state"><div class="empty-icon">🚗</div><div>Нет машин</div></div>';
+            } else {
+                carsContainer.innerHTML = cars.map(c => {
+                    const info = CARS[c.id] || { name: c.id, emoji: '🚗' };
+                    return `<div class="profile-item">
+                        <div class="profile-item-icon">${info.emoji}</div>
+                        <div class="profile-item-name">${info.name}</div>
+                        ${c.count > 1 ? `<div class="profile-item-value">×${c.count}</div>` : ''}
+                    </div>`;
+                }).join('');
             }
 
-            let html = '';
-            userData.cars.sort((a, b) => (CARS[b.id]?.price || 0) - (CARS[a.id]?.price || 0));
-            
-            userData.cars.forEach(car => {
-                const info = CARS[car.id] || { name: car.id, emoji: '🚗', tier: 'common', price: 0 };
-                const isLegendary = info.tier === 'legendary';
-                html += `
-                    <div class="car-card ${isLegendary ? 'legendary' : ''}">
-                        <div class="car-emoji">${info.emoji}</div>
-                        <div class="car-info">
-                            <div class="car-name">${info.name}</div>
-                            <div class="car-price">${info.price > 0 ? formatNum(info.price) + ' 🪙' : '🏆 Уникальная'}</div>
-                        </div>
-                        ${car.count > 1 ? `<div class="car-count">×${car.count}</div>` : ''}
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+            // Business
+            const bizContainer = document.getElementById('profile-biz');
+            const biz = userData.businesses || [];
+            document.getElementById('biz-count').textContent = biz.length;
 
-        // Load inventory
-        function loadInventory() {
-            const container = document.getElementById('inventory-content');
-            let html = '';
-            
-            html += `
-                <div class="inv-item">
-                    <div class="inv-item-icon">🎫</div>
-                    <div class="inv-item-info">
-                        <div class="inv-item-name">Билеты босса</div>
-                        <div class="inv-item-count">${userData?.balance?.tickets || 0} шт.</div>
-                    </div>
-                </div>
-                <div class="inv-item">
-                    <div class="inv-item-icon">💎</div>
-                    <div class="inv-item-info">
-                        <div class="inv-item-name">Кристаллы</div>
-                        <div class="inv-item-count">${userData?.balance?.crystals || 0} шт.</div>
-                    </div>
-                </div>
-            `;
-            
-            container.innerHTML = html || '<div class="empty-state"><div class="empty-icon">📦</div><div>Инвентарь пуст</div></div>';
-        }
-
-        // Load business
-        function loadBusiness() {
-            const container = document.getElementById('business-content');
-            if (!userData?.businesses?.length) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div><div>У вас нет бизнесов</div></div>';
-                return;
+            if (biz.length === 0) {
+                bizContainer.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div><div>Нет бизнесов</div></div>';
+            } else {
+                bizContainer.innerHTML = biz.map(b => `<div class="profile-item">
+                    <div class="profile-item-icon">🏢</div>
+                    <div class="profile-item-name">${b}</div>
+                </div>`).join('');
             }
-            // TODO: render businesses
-            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div><div>Скоро...</div></div>';
         }
 
-        // Actions
-        async function claimDaily() {
-            try {
-                const response = await fetch(`${API_URL}/daily/${userId}`, { method: 'POST' });
-                const data = await response.json();
-                if (data.success) {
-                    showToast(`Получено: ${data.reward} монет! 🎉`);
-                    userData.balance.coins += data.reward;
-                    updateUI();
+        // ========== CLICKER ==========
+        
+        function loadClickerState() {
+            const saved = localStorage.getItem(`clicker_${userId}`);
+            if (saved) {
+                const state = JSON.parse(saved);
+                clickCount = state.clicks || 0;
+                cooldownEnd = state.cooldownEnd || 0;
+            }
+            updateClickerUI();
+        }
+
+        function saveClickerState() {
+            localStorage.setItem(`clicker_${userId}`, JSON.stringify({
+                clicks: clickCount,
+                cooldownEnd: cooldownEnd
+            }));
+        }
+
+        function loadClicker() {
+            updateClickerUI();
+            startCooldownTimer();
+        }
+
+        function updateClickerUI() {
+            const coins = (userData?.balance?.coins || 0) + clickCount;
+            document.getElementById('clicker-coins').textContent = formatNum(coins);
+            document.getElementById('farmed-count').textContent = clickCount;
+            document.getElementById('progress-fill').style.width = `${(clickCount / CLICK_LIMIT) * 100}%`;
+
+            const now = Date.now();
+            if (cooldownEnd > now) {
+                document.getElementById('cooldown-box').style.display = 'block';
+                document.getElementById('coin-btn').style.opacity = '0.5';
+                document.getElementById('coin-btn').style.pointerEvents = 'none';
+            } else {
+                document.getElementById('cooldown-box').style.display = 'none';
+                document.getElementById('coin-btn').style.opacity = '1';
+                document.getElementById('coin-btn').style.pointerEvents = 'auto';
+            }
+        }
+
+        function startCooldownTimer() {
+            if (cooldownInterval) clearInterval(cooldownInterval);
+            
+            cooldownInterval = setInterval(() => {
+                const now = Date.now();
+                if (cooldownEnd > now) {
+                    const remaining = Math.ceil((cooldownEnd - now) / 1000);
+                    const hours = Math.floor(remaining / 3600);
+                    const minutes = Math.floor((remaining % 3600) / 60);
+                    const seconds = remaining % 60;
+                    document.getElementById('cooldown-time').textContent = 
+                        `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 } else {
-                    showToast(data.message || 'Бонус уже получен', 'error');
+                    document.getElementById('cooldown-box').style.display = 'none';
+                    document.getElementById('coin-btn').style.opacity = '1';
+                    document.getElementById('coin-btn').style.pointerEvents = 'auto';
+                    
+                    // Reset clicks after cooldown
+                    if (clickCount >= CLICK_LIMIT) {
+                        clickCount = 0;
+                        saveClickerState();
+                        updateClickerUI();
+                    }
                 }
-            } catch (e) {
-                showToast('Используйте /daily в боте', 'error');
-            }
+            }, 1000);
         }
 
-        async function buyItem(item) {
-            showToast(`Используйте команду в боте`, 'error');
-        }
-
-        async function buyCase(type) {
-            showToast(`Используйте /cases в боте`, 'error');
-        }
-
-        async function activatePromo() {
-            const code = document.getElementById('promo-input').value.trim();
-            if (!code) {
-                showToast('Введите промокод', 'error');
+        function clickCoin(event) {
+            const now = Date.now();
+            
+            if (cooldownEnd > now) {
+                showToast('Подожди окончания кулдауна!', 'error');
                 return;
             }
+
+            if (clickCount >= CLICK_LIMIT) {
+                cooldownEnd = now + (COOLDOWN_MINUTES * 60 * 1000);
+                saveClickerState();
+                updateClickerUI();
+                showToast('Лимит достигнут! Подожди ' + COOLDOWN_MINUTES + ' минут', 'error');
+                return;
+            }
+
+            clickCount++;
+            saveClickerState();
+            updateClickerUI();
+
+            // Create float +1
+            const plus = document.createElement('div');
+            plus.className = 'float-plus';
+            plus.textContent = '+1';
+            plus.style.left = (event.clientX - 15) + 'px';
+            plus.style.top = (event.clientY - 20) + 'px';
+            document.body.appendChild(plus);
+            setTimeout(() => plus.remove(), 1000);
+
+            // Vibration
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+
+            // Send to API periodically (every 10 clicks)
+            if (clickCount % 10 === 0) {
+                syncClicks();
+            }
+        }
+
+        async function syncClicks() {
+            if (!userId || clickCount === 0) return;
+            
             try {
-                const response = await fetch(`${API_URL}/promo/${userId}`, {
+                await fetch(`${API_URL}/clicker/${userId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code })
+                    body: JSON.stringify({ clicks: clickCount })
                 });
-                const data = await response.json();
-                if (data.success) {
-                    showToast(`Промокод активирован! 🎉`);
-                    loadData();
-                } else {
-                    showToast(data.message || 'Неверный промокод', 'error');
-                }
             } catch (e) {
-                showToast('Ошибка. Попробуйте в боте.', 'error');
+                console.error('Sync error:', e);
             }
         }
 
-        function copyRefLink() {
-            const link = document.getElementById('ref-link').textContent;
-            navigator.clipboard.writeText(link);
-            showToast('Ссылка скопирована! 📋');
-        }
-
-        function requestWithdraw() {
-            if (userData.balance.black < 100) {
-                showToast('Минимум 500 BC для вывода', 'error');
-                return;
-            }
-            showToast('Используйте /withdraw в боте');
-        }
-
+        // Open chat
         function openChat() {
             tg.openTelegramLink('https://t.me/taynerchat');
         }
 
         // Init
         document.addEventListener('DOMContentLoaded', loadData);
+        
+        // Sync clicks before closing
+        window.addEventListener('beforeunload', syncClicks);
     </script>
 </body>
 </html>
